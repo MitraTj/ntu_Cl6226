@@ -1,0 +1,6 @@
+.idea/
+.vscode
+__pycache__/
+venv/
+catboost_info
+.ipynb_checkpoints
