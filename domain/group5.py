@@ -1,4 +1,5 @@
 import os
+import sys
 
 import re
 from nltk.stem import PorterStemmer
@@ -50,9 +51,10 @@ def convert2postings(tokenDoc_pair):
     for i,tD in enumerate(tokenDoc_pair):
         ratio = float(i)/len(tokenDoc_pair)*100
         if ratio%5 == 0:
-            print("%"+str(ratio)+" of tokens are converted to postings" + str(time.clock()-tmp_time))        
-            tmp_time = time.clock()        
-        if tD[0] not in postings.keys():
+            print(str(ratio)+"% of tokens are converted to postings and it takes " + str(time.clock()-tmp_time)+ " seconds.")      
+            tmp_time = time.clock()    
+        if postings.get(tD[0]) == None:
+#        if tD[0] not in postings.keys():
             postings[tD[0]] = [tD[1]]
         else:
             if tD[1] not in postings[tD[0]]:
@@ -112,17 +114,17 @@ def create_index(path):
     for i,f in enumerate(files):
         ratio = float(i)/len(files)*100
         if ratio%5 == 0:
-            print("%"+str(ratio)+" of files are loaded")
+            print(str(ratio)+"% of files are loaded")
         for t in tokenization(readFile(f)):
 #            token_table.append([t,f.strip().split(".")[0]])
             token_table.append([t,f])
-    print("tokens are generated, linguistics ..." + str(time.clock()-tmp_time))   
+    print("token table generation takes::: " + str(time.clock()-tmp_time) + " seconds. Now linguistics ...")  
     tmp_time = time.clock()
     linguistic(token_table)    
-    print("after linguistcs, sorting ..." + str(time.clock()-tmp_time))
+    print("linguistcs takes::: " + str(time.clock()-tmp_time)+" seconds. Now sorting ...")
     tmp_time = time.clock()
     sorting(token_table)
-    print("after sorting, convert to postings" + str(time.clock()-tmp_time))
+    print("sorting takes::: " + str(time.clock()-tmp_time)+" seconds. Now inverted index generation (convert to postings) ...")
     return convert2postings(token_table)
 
 def query(u_query):
@@ -157,6 +159,7 @@ else:
     print("index created")    
     pickle.dump(postings,open("postings.p","wb"))
     print("And dumped")
+print("Size of index "+str(sys.getsizeof(postings))+" bytes")
 
 if __name__ == "__main__":
     while True: 
@@ -173,8 +176,3 @@ if __name__ == "__main__":
         else:
             print("Doc/s related to '"+user_query+"':::: "+str(query_res))
         
-
-
-
-
-    
