@@ -117,7 +117,7 @@ def create_index(path):
             print(str(ratio)+"% of files are loaded")
         for t in tokenization(readFile(f)):
 #            token_table.append([t,f.strip().split(".")[0]])
-            token_table.append([t,files.index(f)])
+            token_table.append([t,i])
     print("token table generation takes::: " + str(time.clock()-tmp_time) + " seconds. Now linguistics ...")   
     tmp_time = time.clock()
     linguistic(token_table)    
