@@ -10,3 +10,7 @@ Solution-
  
 Source code is developed in ubuntu with python 2.7.
 PS: Especially, the following library nltk should be installed. Otherwise, pls comment out liguistic model to run. 
+
+# Testing code
+for running code before optimization, refer to domain/group5
+for running code after optimization, refer to domain_afteropt/group5
